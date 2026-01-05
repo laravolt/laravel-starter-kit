@@ -1,13 +1,13 @@
 <p>
-    <a href="https://github.com/qisthidev/laravolt-starter-kit/actions"><img src="https://github.com/qisthidev/laravolt-starter-kit/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
-    <a href="https://packagist.org/packages/qisthidev/laravolt-starter-kit"><img src="https://img.shields.io/packagist/dt/qisthidev/laravolt-starter-kit" alt="Total Downloads"></a>
-    <a href="https://packagist.org/packages/qisthidev/laravolt-starter-kit"><img src="https://img.shields.io/packagist/v/qisthidev/laravolt-starter-kit" alt="Latest Stable Version"></a>
-    <a href="https://packagist.org/packages/qisthidev/laravolt-starter-kit"><img src="https://img.shields.io/packagist/l/qisthidev/laravolt-starter-kit" alt="License"></a>
+    <a href="https://github.com/laravolt/laravel-starter-kit/actions"><img src="https://github.com/laravolt/laravel-starter-kit/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://packagist.org/packages/laravolt/laravel-starter-kit"><img src="https://img.shields.io/packagist/dt/laravolt/laravel-starter-kit" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/laravolt/laravel-starter-kit"><img src="https://img.shields.io/packagist/v/laravolt/laravel-starter-kit" alt="Latest Stable Version"></a>
+    <a href="https://packagist.org/packages/laravolt/laravel-starter-kit"><img src="https://img.shields.io/packagist/l/laravolt/laravel-starter-kit" alt="License"></a>
 </p>
 
 # Laravolt Starter Kit
 
-Personal Laravel starter kit with strict type-safety and code quality tools for [Laravolt](https://github.com/laravolt/laravolt) in Agentic era.
+Official Laravel starter kit with strict type-safety and code quality tools for [Laravolt](https://github.com/laravolt/laravolt) in Agentic era.
 
 ## Why This Starter Kit?
 
@@ -29,7 +29,7 @@ This isn't just another Laravel boilerplate—it's a statement that PHP applicat
 Create your type-safe Laravel application using [Composer](https://getcomposer.org):
 
 ```bash
-composer create-project qisthidev/laravolt-starter-kit --prefer-dist example-app
+composer create-project laravolt/laravel-starter-kit --prefer-dist example-app
 ```
 
 ### Initial Setup
@@ -89,4 +89,4 @@ You should see 100% test coverage and all quality checks passing.
 
 ---
 
-Based on [nunomaduro/laravel-starter-kit](https://github.com/nunomaduro/laravel-starter-kit).
+Based on the original work by **[Nuno Maduro](https://x.com/enunomaduro)**.
