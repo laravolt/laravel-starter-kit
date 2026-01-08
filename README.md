@@ -9,6 +9,8 @@
 
 Official Laravel starter kit with strict type-safety and code quality tools for [Laravolt](https://github.com/laravolt/laravolt) in Agentic era.
 
+> **Note**: This starter kit comes with Laravolt Platform (7.x) pre-installed. The setup process automatically configures all necessary migrations and assets.
+
 ## Why This Starter Kit?
 
 Modern PHP has evolved into a mature, type-safe language, yet many Laravel projects still operate with loose conventions and optional typing. This starter kit changes that paradigm by enforcing:
