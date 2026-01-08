@@ -12,6 +12,7 @@
     "require": {
         "php": "^8.4.0",
         "laravel/framework": "^12.44.0",
+        "laravolt/laravolt": "7.x-dev",
         "nunomaduro/essentials": "^1.0.1"
     },
     "require-dev": {
@@ -47,6 +48,7 @@
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
+            "@php artisan laravolt:install",
             "@php artisan migrate --force",
             "npm install",
             "npm run build"
@@ -70,6 +72,7 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@php artisan laravolt:install",
             "@php artisan migrate --graceful --ansi"
         ],
         "update:requirements": [
