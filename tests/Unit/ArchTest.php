@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\Authenticate;
+
 arch()->preset()->php();
-arch()->preset()->strictWithoutProtectedMethods();
+arch()->preset()->strict()->ignoring(Authenticate::class);
 arch()->preset()->security();
 
 arch('controllers')

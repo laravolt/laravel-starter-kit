@@ -4,56 +4,42 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Carbon\CarbonInterface;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravolt\Platform\Models\User as BaseUser;
+use Laravolt\Suitable\AutoFilter;
+use Laravolt\Suitable\AutoSearch;
+use Laravolt\Suitable\AutoSort;
 
 /**
- * @property-read string $id
- * @property-read string $name
- * @property-read string $email
- * @property-read CarbonInterface|null $email_verified_at
- * @property-read string $password
- * @property-read string|null $remember_token
- * @property-read string|null $status
- * @property-read string $timezone
- * @property-read CarbonInterface|null $password_changed_at
- * @property-read CarbonInterface $created_at
- * @property-read CarbonInterface $updated_at
+ * @use HasFactory<UserFactory>
  */
-final class User extends Authenticatable implements MustVerifyEmail
+final class User extends BaseUser
 {
+    use AutoFilter, AutoSearch, AutoSort;
+
     /** @use HasFactory<UserFactory> */
-    use HasFactory, HasUlids, Notifiable;
+    use HasFactory, Notifiable;
+    // use \Laravel\Sanctum\HasApiTokens;
 
     /**
-     * @var list<string>
+     * The attributes that are mass assignable.
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
+    protected $fillable = ['name', 'email', 'username', 'password', 'status', 'timezone'];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     */
+    protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
     ];
-
-    /**
-     * @return array<string, string>
-     */
-    public function casts(): array
-    {
-        return [
-            'name' => 'string',
-            'email' => 'string',
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'remember_token' => 'string',
-            'status' => 'string',
-            'timezone' => 'string',
-            'password_changed_at' => 'datetime',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
-        ];
-    }
 }
