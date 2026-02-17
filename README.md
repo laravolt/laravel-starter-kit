@@ -35,8 +35,8 @@ composer dev
 If you plan to use Pest's browser testing capabilities:
 
 ```bash
-npm install playwright
-npx playwright install
+bun add playwright
+bunx playwright install
 ```
 
 ### Verify Installation
