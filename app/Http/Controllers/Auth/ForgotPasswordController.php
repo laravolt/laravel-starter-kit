@@ -37,23 +37,12 @@ final class ForgotPasswordController extends Controller
             $response = resolve('laravolt.password')->sendResetLink($user);
         }
 
-        if ($response === Password::RESET_LINK_SENT && $user) {
-            $email = $user->getEmailForPasswordReset();
+        $email = (string) $request->input('email');
 
-            /** @var array<string, string> $translationParams */
-            $translationParams = ['email' => $email, 'emailMasked' => Str::maskEmail($email)];
-
-            return to_route('auth::forgot.show')
-                ->with('success', trans($response, $translationParams));
-        }
-
-        /** @var string $responseString */
-        $responseString = $response;
-
-        /** @var string $errorMessage */
-        $errorMessage = trans($responseString);
+        /** @var array<string, string> $translationParams */
+        $translationParams = ['email' => $email, 'emailMasked' => Str::maskEmail($email)];
 
         return to_route('auth::forgot.show')
-            ->with('error', ['email' => $errorMessage]);
+            ->with('success', trans(Password::RESET_LINK_SENT, $translationParams));
     }
 }
