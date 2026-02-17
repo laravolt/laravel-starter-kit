@@ -6,7 +6,8 @@ it('can display login page', function (): void {
     $page = visit('/auth/login');
 
     $page->assertSee('Login')
-        ->assertNoJavaScriptErrors();
+        ->assertNoJavaScriptErrors()
+        ->assertScreenshotMatches();
 });
 
 it('has email field on login page', function (): void {

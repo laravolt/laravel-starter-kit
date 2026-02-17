@@ -5,12 +5,16 @@ declare(strict_types=1);
 use App\Models\User;
 
 it('can display edit password page', function (): void {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(User::factory()->create([
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+    ]));
 
     $page = visit('/my/password');
 
     $page->assertSee('Edit Password')
-        ->assertNoJavaScriptErrors();
+        ->assertNoJavaScriptErrors()
+        ->assertScreenshotMatches();
 });
 
 it('has current password field', function (): void {

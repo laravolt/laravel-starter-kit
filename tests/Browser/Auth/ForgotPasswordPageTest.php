@@ -6,7 +6,8 @@ it('can display forgot password page', function (): void {
     $page = visit('/auth/forgot');
 
     $page->assertSee('Forgot Password')
-        ->assertNoJavaScriptErrors();
+        ->assertNoJavaScriptErrors()
+        ->assertScreenshotMatches();
 });
 
 it('has email field on forgot password page', function (): void {

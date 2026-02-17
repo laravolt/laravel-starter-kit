@@ -6,7 +6,8 @@ it('can display registration page', function (): void {
     $page = visit('/auth/register');
 
     $page->assertSee('Register')
-        ->assertNoJavaScriptErrors();
+        ->assertNoJavaScriptErrors()
+        ->assertScreenshotMatches();
 });
 
 it('has name field on registration page', function (): void {

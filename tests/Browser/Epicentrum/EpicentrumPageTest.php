@@ -17,7 +17,8 @@ it('can display roles page', function (): void {
     $page = visit('/epicentrum/roles');
 
     $page->assertSee('Roles')
-        ->assertNoJavaScriptErrors();
+        ->assertNoJavaScriptErrors()
+        ->assertScreenshotMatches();
 });
 
 it('can display create role page', function (): void {
@@ -25,7 +26,8 @@ it('can display create role page', function (): void {
 
     $page = visit('/epicentrum/roles/create');
 
-    $page->assertNoJavaScriptErrors();
+    $page->assertNoJavaScriptErrors()
+        ->assertScreenshotMatches();
 });
 
 it('can display permissions page', function (): void {
@@ -34,5 +36,6 @@ it('can display permissions page', function (): void {
     $page = visit('/epicentrum/permissions');
 
     $page->assertSee('Permissions')
-        ->assertNoJavaScriptErrors();
+        ->assertNoJavaScriptErrors()
+        ->assertScreenshotMatches();
 });

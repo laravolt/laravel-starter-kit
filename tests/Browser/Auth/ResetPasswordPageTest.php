@@ -6,7 +6,8 @@ it('can display reset password page', function (): void {
     $page = visit('/auth/reset/fake-token');
 
     $page->assertSee('Reset Password')
-        ->assertNoJavaScriptErrors();
+        ->assertNoJavaScriptErrors()
+        ->assertScreenshotMatches();
 });
 
 it('has email field on reset password page', function (): void {
