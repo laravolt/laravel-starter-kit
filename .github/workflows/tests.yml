@@ -99,6 +99,9 @@ jobs:
       - name: Laravolt Things
         run: php artisan laravolt:link
 
+      - name: Laravolt Things
+        run: php artisan laravolt:link
+
       - name: Tests
         run: composer test
 

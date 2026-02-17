@@ -30,7 +30,7 @@ This isn't just another Laravel boilerplate—it's a statement that PHP applicat
 Create your type-safe Laravel application using [Composer](https://getcomposer.org):
 
 ```bash
-composer create-project qisthidev/laravolt-starter-kit --prefer-dist example-app
+composer create-project laravolt/laravolt-starter-kit --prefer-dist example-app
 ```
 
 ### Initial Setup
