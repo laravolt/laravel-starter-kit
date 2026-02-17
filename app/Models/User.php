@@ -13,9 +13,6 @@ use Laravolt\Suitable\AutoFilter;
 use Laravolt\Suitable\AutoSearch;
 use Laravolt\Suitable\AutoSort;
 
-/**
- * @use HasFactory<UserFactory>
- */
 final class User extends BaseUser
 {
     use AutoFilter, AutoSearch, AutoSort;

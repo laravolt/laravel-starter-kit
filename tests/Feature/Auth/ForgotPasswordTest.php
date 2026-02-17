@@ -12,7 +12,7 @@ test('it can get forgot password page', function (): void {
     /** @var TestCase $test */
     $test = $this;
 
-    $test->get(route('auth::forgot.store'))
+    $test->get(route('auth::forgot.show'))
         ->assertSee('email')
         ->assertStatus(200);
 });

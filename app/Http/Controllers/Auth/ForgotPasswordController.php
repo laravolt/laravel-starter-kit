@@ -27,21 +27,20 @@ final class ForgotPasswordController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate(['email' => ['required', 'email', 'exists:users']]);
-
-        $response = Password::INVALID_USER;
-
-        $user = User::whereEmail($request->email)->first();
-
-        if ($user) {
-            $response = resolve('laravolt.password')->sendResetLink($user);
-        }
+        $request->validate(['email' => ['required', 'email']]);
 
         $email = (string) $request->input('email');
+        
+        // Attempt to send reset link - this will silently fail for non-existent users
+        $user = User::whereEmail($email)->first();
+        if ($user) {
+            resolve('laravolt.password')->sendResetLink($user);
+        }
 
         /** @var array<string, string> $translationParams */
         $translationParams = ['email' => $email, 'emailMasked' => Str::maskEmail($email)];
 
+        // Always return the same success message to prevent user enumeration
         return to_route('auth::forgot.show')
             ->with('success', trans(Password::RESET_LINK_SENT, $translationParams));
     }
