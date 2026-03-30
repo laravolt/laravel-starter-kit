@@ -9,6 +9,8 @@
 
 Official Laravel starter kit with strict type-safety and code quality tools for [Laravolt](https://github.com/laravolt/laravolt) in Agentic era.
 
+> **Note**: This starter kit comes with Laravolt Platform (7.x) pre-installed. The setup process automatically configures all necessary migrations and assets.
+
 ## Why This Starter Kit?
 
 Modern PHP has evolved into a mature, type-safe language, yet many Laravel projects still operate with loose conventions and optional typing. This starter kit changes that paradigm by enforcing:
@@ -18,14 +20,13 @@ Modern PHP has evolved into a mature, type-safe language, yet many Laravel proje
 - **Immutable-First Architecture**: Data structures favor immutability to prevent unexpected mutations
 - **Fail-Fast Philosophy**: Errors are caught at compile-time, not runtime
 - **Automated Code Quality**: Pre-configured tools ensure consistent, pristine code across your entire team
-- **Bun-Powered**: Leveraging Bun for blazing-fast dependency management...
 - **Just Better Laravel Defaults**: Thanks to **[Essentials](https://github.com/nunomaduro/essentials)** / strict models, auto eager loading, immutable dates, and more...
 
 This isn't just another Laravel boilerplate—it's a statement that PHP applications can and should be built with the same rigor as strongly-typed languages like Rust or TypeScript.
 
 ## Getting Started
 
-> **Requires [PHP 8.4+](https://php.net/releases/)**, and [Bun](https://bun.sh).
+> **Requires [PHP 8.4+](https://php.net/releases/)**.
 
 Create your type-safe Laravel application using [Composer](https://getcomposer.org):
 

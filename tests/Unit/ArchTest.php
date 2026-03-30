@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\Authenticate;
+
 arch()->preset()->php();
-arch()->preset()->strictWithoutProtectedMethods();
+// Ignoring Authenticate middleware because Laravel's base class contains protected methods
+arch()->preset()->strict()->ignoring(Authenticate::class);
 arch()->preset()->security();
 
 arch('controllers')

@@ -15,5 +15,8 @@ test('to array', function (): void {
             'email_verified_at',
             'created_at',
             'updated_at',
+            'status',
+            'timezone',
+            'password_changed_at',
         ]);
 });

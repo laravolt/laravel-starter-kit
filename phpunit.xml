@@ -19,7 +19,22 @@
         <include>
             <directory>app</directory>
         </include>
+        <exclude>
+            <directory suffix=".blade.php">modules/*/resources</directory>
+            <directory suffix="Factory.php">modules/*/Models</directory>
+            <directory suffix="Test.php">modules/*/Tests</directory>
+            <directory>modules/*/routes</directory>
+        </exclude>
     </source>
+    <coverage>
+        <report>
+            <html outputDirectory="coverage/html" />
+            <clover outputFile="coverage/clover.xml"/>
+        </report>
+    </coverage>
+    <logging>
+        <junit outputFile="pestphp-execution-result.xml" />
+    </logging>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
