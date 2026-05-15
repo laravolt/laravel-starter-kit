@@ -26,27 +26,34 @@ This isn't just another Laravel boilerplate—it's a statement that PHP applicat
 
 ## Getting Started
 
-> **Requires [PHP 8.4+](https://php.net/releases/)**.
+> **Requires [PHP 8.4+](https://php.net/releases/)** and a database supported by Laravel 13. The default `.env.example` is ready for SQLite.
 
-Create your type-safe Laravel application using [Composer](https://getcomposer.org):
+### Create a New App
+
+Create your type-safe Laravel 13 + Laravolt 7 application using [Composer](https://getcomposer.org):
+
+> Maintenance note: until the first Laravolt 7 beta tag is published, this starter pins `laravolt/laravolt` to `dev-master as 7.0.0-beta.1`. Switch it to `^7.0@beta` after the beta release is tagged.
 
 ```bash
 composer create-project laravolt/laravel-starter-kit --prefer-dist example-app
-```
-
-### Initial Setup
-
-Navigate to your project and complete the setup:
-
-```bash
 cd example-app
-
-# Setup project
-composer setup
-
-# Start the development server
 composer dev
 ```
+
+`create-project` already copies `.env`, generates the app key, prepares SQLite, runs `laravolt:install`, and migrates the database.
+
+### Setup an Existing Clone
+
+Use this path only when you clone the repository manually instead of using `create-project`:
+
+```bash
+git clone https://github.com/laravolt/laravel-starter-kit example-app
+cd example-app
+composer setup
+composer dev
+```
+
+`composer setup` installs Composer and Bun dependencies, publishes Laravolt, runs migrations, and builds assets.
 
 ### Optional: Browser Testing Setup
 
@@ -57,6 +64,15 @@ bun add playwright
 bunx playwright install
 ```
 
+### Laravolt Assets
+
+If Laravolt UI assets look stale after an update, refresh the symlinks/assets:
+
+```bash
+php artisan laravolt:link
+bun run build
+```
+
 ### Verify Installation
 
 Run the test suite to ensure everything is configured correctly:
@@ -65,7 +81,14 @@ Run the test suite to ensure everything is configured correctly:
 composer test
 ```
 
-You should see 100% test coverage and all quality checks passing.
+You should see all default quality checks passing. The starter kit intentionally ships with strict Pest Arch, type coverage, Pint, Rector, and PHPStan gates so a fresh app starts green.
+
+Coverage and browser tests are available as explicit opt-in gates:
+
+```bash
+composer test:coverage  # requires a PHP coverage driver such as Xdebug/PCOV
+composer test:browser   # requires bunx playwright install
+```
 
 ## Available Tooling
 

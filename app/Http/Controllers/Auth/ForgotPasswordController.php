@@ -29,8 +29,8 @@ final class ForgotPasswordController extends Controller
     {
         $request->validate(['email' => ['required', 'email']]);
 
-        $email = (string) $request->input('email');
-        
+        $email = $request->string('email')->toString();
+
         // Attempt to send reset link - this will silently fail for non-existent users
         $user = User::whereEmail($email)->first();
         if ($user) {
