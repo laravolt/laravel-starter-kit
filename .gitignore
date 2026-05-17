@@ -27,3 +27,4 @@ yarn-error.log
 /coverage
 /pestphp-coverage-result.xml
 /pestphp-execution-result.xml
+/tests/Browser/Screenshots/ImageDiffView
