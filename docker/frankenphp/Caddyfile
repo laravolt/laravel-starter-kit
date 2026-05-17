@@ -1,0 +1,11 @@
+{
+    frankenphp
+    # Comment out the next line in production environments behind a TLS proxy.
+    auto_https off
+}
+
+:8080 {
+    root * /app/public
+    encode zstd gzip
+    php_server
+}
