@@ -85,13 +85,13 @@
             "pint --parallel",
             "bun run lint"
         ],
-        "test:type-coverage": "pest --exclude-testsuite Browser --type-coverage --min=100",
+        "test:type-coverage": "pest --exclude-testsuite Browser --type-coverage --min=100 --passthru-php=\"'-d' 'memory_limit=512M'\"",
         "test:lint": [
             "pint --parallel --test",
             "rector --dry-run",
             "bun run test:lint"
         ],
-        "test:unit": "pest --exclude-testsuite Browser --parallel --no-coverage",
+        "test:unit": "pest --exclude-testsuite Browser --parallel --no-coverage --passthru-php=\"'-d' 'memory_limit=512M'\"",
         "test:types": "php -d memory_limit=1G vendor/bin/phpstan --memory-limit=1G --no-progress",
         "test": [
             "@test:type-coverage",
@@ -120,8 +120,11 @@
     "prefer-stable": true,
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/laravolt/laravolt"
+            "type": "path",
+            "url": "../laravolt",
+            "options": {
+                "symlink": true
+            }
         }
     ]
 }

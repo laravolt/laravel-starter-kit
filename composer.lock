@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d0377b061583b982614409c93b9b367",
+    "content-hash": "ea8a6c72468711232f771d14aecda05f",
     "packages": [
         {
             "name": "akaunting/laravel-setting",
@@ -3142,16 +3142,10 @@
         {
             "name": "laravolt/laravolt",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravolt/laravolt.git",
-                "reference": "aa44cf6d37e0ca133b525bc7d2d0c75961beb175"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravolt/laravolt/zipball/aa44cf6d37e0ca133b525bc7d2d0c75961beb175",
-                "reference": "aa44cf6d37e0ca133b525bc7d2d0c75961beb175",
-                "shasum": ""
+                "type": "path",
+                "url": "../laravolt",
+                "reference": "ba38cd4e55fa74812eaac28344bfb2a2a26bf3e5"
             },
             "require": {
                 "akaunting/laravel-setting": "^1.2.9",
@@ -3201,7 +3195,6 @@
             "suggest": {
                 "anhskohbo/no-captcha": "Required to enable the reCAPTCHA captcha feature (^3.7)"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -3268,11 +3261,10 @@
                 "MIT"
             ],
             "description": "The Laravolt Platform.",
-            "support": {
-                "source": "https://github.com/laravolt/laravolt/tree/v7.0.0-beta.3",
-                "issues": "https://github.com/laravolt/laravolt/issues"
-            },
-            "time": "2026-05-14T12:33:39+00:00"
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "lavary/laravel-menu",
