@@ -12,7 +12,9 @@
     "nightwatch_mcp": false,
     "sail": false,
     "skills": [
+        "infer-conventions",
         "laravel-best-practices",
+        "octane-development",
         "pest-testing",
         "tailwindcss-development"
     ]

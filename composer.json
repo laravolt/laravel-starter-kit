@@ -10,26 +10,26 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.4.0",
-        "laravel/framework": "^13.9.0",
-        "laravolt/laravolt": "dev-master as 7.0.0-beta.1",
+        "php": "^8.5.0",
+        "laravel/framework": "^13.24.0",
+        "laravolt/laravolt": "^7.0",
         "nunomaduro/essentials": "^1.2.0"
     },
     "require-dev": {
-        "driftingly/rector-laravel": "^2.3.0",
+        "driftingly/rector-laravel": "^2.5.0",
         "fakerphp/faker": "^1.24.1",
-        "larastan/larastan": "^3.9.6",
-        "laravel/boost": "^2.4.6",
-        "laravel/pail": "^1.2.6",
-        "laravel/pint": "^1.29.1",
+        "larastan/larastan": "^3.10.0",
+        "laravel/boost": "^2.5.0",
+        "laravel/pail": "^1.2.7",
+        "laravel/pint": "^1.30.3",
         "mockery/mockery": "^1.6.12",
-        "nunomaduro/collision": "^8.9.4",
-        "pestphp/pest": "^4.7.0",
+        "nunomaduro/collision": "^8.9.5",
+        "pestphp/pest": "^4.7.8",
         "pestphp/pest-plugin-browser": "^4.3.1",
         "pestphp/pest-plugin-laravel": "^4.1.0",
         "pestphp/pest-plugin-type-coverage": "^4.0.4",
-        "rector/rector": "^2.4.3",
-        "spaze/phpstan-disallowed-calls": "^4.12"
+        "rector/rector": "^2.6.1",
+        "spaze/phpstan-disallowed-calls": "^4.14"
     },
     "autoload": {
         "psr-4": {
@@ -116,15 +116,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../laravolt",
-            "options": {
-                "symlink": true
-            }
-        }
-    ]
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
