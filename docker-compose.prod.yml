@@ -20,7 +20,7 @@ services:
       APP_ENV: production
       APP_DEBUG: "false"
       AUTORUN_ENABLED: "true"
-      AUTORUN_LARAVOLT_LINK: "true"
+      AUTORUN_LARAVOLT_LINK: "false"
     ports:
       - "127.0.0.1:8090:8080"
     volumes:

@@ -2,8 +2,9 @@
 # Laravolt v7 starter-kit — production container.
 # Multi-stage: composer install + bun build, then bake into laravoltdev/image.
 
-FROM composer:2 AS vendor
-WORKDIR /app
+FROM laravoltdev/image:php8.5-prod AS vendor
+USER root
+WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 COPY . .
 RUN composer install \
@@ -25,7 +26,7 @@ FROM laravoltdev/image:php8.5-prod AS runtime
 
 USER root
 
-COPY --from=vendor /app /var/www/html
+COPY --from=vendor /var/www/html /var/www/html
 COPY --from=assets /app/public/build /var/www/html/public/build
 
 RUN mkdir -p \
@@ -37,6 +38,8 @@ RUN mkdir -p \
         /var/www/html/bootstrap/cache \
         /var/www/html/database \
     && touch /var/www/html/database/database.sqlite \
+    && rm -rf /var/www/html/public/laravolt \
+    && php /var/www/html/artisan laravolt:link \
     && chown -R www-data:www-data \
         /var/www/html/storage \
         /var/www/html/bootstrap/cache \
@@ -45,7 +48,7 @@ RUN mkdir -p \
 USER www-data
 
 ENV AUTORUN_ENABLED=true
-ENV AUTORUN_LARAVOLT_LINK=true
+ENV AUTORUN_LARAVOLT_LINK=false
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
