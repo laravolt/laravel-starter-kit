@@ -39,11 +39,13 @@ return [
             'url' => env('DB_URL'),
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
+            'prefix_indexes' => null,
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
             'busy_timeout' => null,
             'journal_mode' => null,
             'synchronous' => null,
             'transaction_mode' => 'DEFERRED',
+            'pragmas' => [],
         ],
 
         'mysql' => [
@@ -99,6 +101,14 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => env('DB_SSLMODE', 'prefer'),
+            'pooled' => env('DB_POOLED', false),
+            'direct' => array_filter([
+                'host' => env('DB_DIRECT_HOST'),
+                'port' => env('DB_DIRECT_PORT'),
+                'username' => env('DB_DIRECT_USERNAME'),
+                'password' => env('DB_DIRECT_PASSWORD'),
+                'sslmode' => env('DB_DIRECT_SSLMODE'),
+            ]),
         ],
 
         'sqlsrv' => [
@@ -112,8 +122,8 @@ return [
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
-            'encrypt' => env('DB_ENCRYPT', 'yes'),
-            'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
+            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
     ],
