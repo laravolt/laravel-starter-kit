@@ -1,11 +1,10 @@
 # Laravolt v7 starter-kit — production stack.
-# FrankenPHP-backed image with baked vendor + Vite build. SQLite is the
-# default for portability; uncomment the postgres service block below if you
-# want a stateful database alongside.
+# Based on laravoltdev/image (ServerSideUp PHP + FrankenPHP + Laravolt extensions).
+# Baked vendor + Vite build. SQLite default for portability.
 #
 # Build & run:
 #   docker compose -f docker-compose.prod.yml up --build -d
-# Then open http://localhost:8090 .
+# Then open http://localhost:8090
 
 services:
   app:
@@ -13,25 +12,21 @@ services:
       context: .
       dockerfile: docker/frankenphp/prod.Dockerfile
     image: laravolt-starter-kit:prod
-    container_name: laravolt-starter-kit-prod
+    container_name: laravolt-prod
     restart: unless-stopped
     env_file:
       - .env
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
-      DB_CONNECTION: sqlite
-      DB_DATABASE: /app/database/database.sqlite
-      CACHE_STORE: array
-      SESSION_DRIVER: database
-      QUEUE_CONNECTION: sync
-      OCTANE_SERVER: frankenphp
+      AUTORUN_ENABLED: "true"
+      AUTORUN_LARAVOLT_LINK: "true"
     ports:
       - "127.0.0.1:8090:8080"
     volumes:
-      - laravolt-starter-storage:/app/storage
-      - laravolt-starter-bootstrap-cache:/app/bootstrap/cache
-      - laravolt-starter-database:/app/database
+      - laravolt-storage:/var/www/html/storage
+      - laravolt-bootstrap-cache:/var/www/html/bootstrap/cache
+      - laravolt-database:/var/www/html/database
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8080/up >/dev/null || exit 1"]
       interval: 30s
@@ -39,24 +34,23 @@ services:
       retries: 5
       start_period: 60s
 
-  # Optional Postgres for teams that want a stateful database. Switch
-  # DB_CONNECTION=pgsql and the rest of the DB_* variables in .env to use it.
+  # Optional Postgres — set DB_CONNECTION=pgsql and DB_* variables in .env.
   #
   # postgres:
   #   image: postgres:16-alpine
-  #   container_name: laravolt-starter-kit-postgres
+  #   container_name: laravolt-postgres
   #   restart: unless-stopped
   #   environment:
   #     POSTGRES_DB: laravolt
   #     POSTGRES_USER: laravolt
   #     POSTGRES_PASSWORD: changeme
   #   volumes:
-  #     - laravolt-starter-pgdata:/var/lib/postgresql/data
+  #     - laravolt-pgdata:/var/lib/postgresql/data
   #   ports:
   #     - "127.0.0.1:5432:5432"
 
 volumes:
-  laravolt-starter-storage:
-  laravolt-starter-bootstrap-cache:
-  laravolt-starter-database:
-  # laravolt-starter-pgdata:
+  laravolt-storage:
+  laravolt-bootstrap-cache:
+  laravolt-database:
+  # laravolt-pgdata:

@@ -1,42 +1,17 @@
 # syntax=docker/dockerfile:1
 # Laravolt v7 starter-kit — dev container.
-# PHP CLI + Composer + Node for fast iteration with the source tree mounted.
+# Based on laravoltdev/image (ServerSideUp PHP + Laravolt extensions).
+# Source tree is mounted via compose; this image only adds bun for frontend.
 
-FROM php:8.4-cli-alpine
+FROM laravoltdev/image:php8.5-frankenphp-debian
 
-WORKDIR /app
+USER root
 
-RUN apk add --no-cache \
-        bash \
-        git \
-        curl \
-        nodejs \
-        npm \
-        sqlite \
-        sqlite-dev \
-        libpng-dev \
-        libzip-dev \
-        icu-dev \
-        oniguruma-dev \
-    && docker-php-ext-install \
-        bcmath \
-        gd \
-        pdo_sqlite \
-        zip \
-        intl \
-        opcache
+RUN curl -fsSL https://bun.sh/install | bash \
+    && ln -s /root/.bun/bin/bun /usr/local/bin/bun \
+    && ln -s /root/.bun/bin/bunx /usr/local/bin/bunx
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+USER www-data
 
-EXPOSE 8000 5173
-
-# Compose mounts the working tree onto /app; install + migrate + serve on boot.
-CMD ["bash", "-lc", "\
-    composer install --no-interaction --prefer-dist && \
-    npm install && \
-    [ -f .env ] || cp .env.example .env && \
-    php artisan key:generate --force || true && \
-    mkdir -p database && touch database/database.sqlite && \
-    php artisan migrate --force && \
-    php artisan serve --host=0.0.0.0 --port=8000 \
-"]
+ENV AUTORUN_ENABLED=true
+ENV AUTORUN_LARAVOLT_LINK=true

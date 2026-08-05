@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Laravolt v7 starter-kit — production container.
-# FrankenPHP runtime with baked Composer vendor + Vite build assets.
+# Multi-stage: composer install + bun build, then bake into laravoltdev/image.
 
 FROM composer:2 AS vendor
 WORKDIR /app
@@ -13,53 +13,44 @@ RUN composer install \
         --no-interaction \
         --no-progress
 
-FROM node:24-alpine AS assets
+FROM oven/bun:1-alpine AS assets
 WORKDIR /app
-# Use the npm lockfile when present; otherwise fall back to `npm install`.
-COPY package.json ./
-COPY package-lock.json* ./
-RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+COPY package.json bun.lock* ./
+RUN bun install --frozen-lockfile
 COPY resources ./resources
 COPY vite.config.js ./
-RUN npm run build
+RUN bun run build
 
-FROM dunglas/frankenphp:1-php8.4-alpine AS runtime
-WORKDIR /app
+FROM laravoltdev/image:php8.5-prod AS runtime
 
-RUN install-php-extensions \
-        bcmath \
-        gd \
-        pdo_sqlite \
-        zip \
-        intl \
-        opcache
+USER root
 
-COPY docker/frankenphp/Caddyfile /etc/caddy/Caddyfile
-
-COPY --from=vendor /app /app
-COPY --from=assets /app/public/build /app/public/build
+COPY --from=vendor /app /var/www/html
+COPY --from=assets /app/public/build /var/www/html/public/build
 
 RUN mkdir -p \
-        storage/app/public \
-        storage/framework/cache/data \
-        storage/framework/sessions \
-        storage/framework/views \
-        storage/logs \
-        bootstrap/cache \
-        database \
-    && touch database/database.sqlite \
-    && chown -R www-data:www-data storage bootstrap/cache database
+        /var/www/html/storage/app/public \
+        /var/www/html/storage/framework/cache/data \
+        /var/www/html/storage/framework/sessions \
+        /var/www/html/storage/framework/views \
+        /var/www/html/storage/logs \
+        /var/www/html/bootstrap/cache \
+        /var/www/html/database \
+    && touch /var/www/html/database/database.sqlite \
+    && chown -R www-data:www-data \
+        /var/www/html/storage \
+        /var/www/html/bootstrap/cache \
+        /var/www/html/database
 
-ENV APP_ENV=production \
-    APP_DEBUG=false \
-    LOG_CHANNEL=stderr \
-    DB_CONNECTION=sqlite \
-    DB_DATABASE=/app/database/database.sqlite \
-    CACHE_STORE=array \
-    SESSION_DRIVER=database \
-    QUEUE_CONNECTION=sync \
-    OCTANE_SERVER=frankenphp
+USER www-data
 
-EXPOSE 8080
-
-CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+ENV AUTORUN_ENABLED=true
+ENV AUTORUN_LARAVOLT_LINK=true
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+ENV LOG_CHANNEL=stderr
+ENV DB_CONNECTION=sqlite
+ENV DB_DATABASE=/var/www/html/database/database.sqlite
+ENV CACHE_STORE=array
+ENV SESSION_DRIVER=database
+ENV QUEUE_CONNECTION=sync
