@@ -14,6 +14,7 @@ use Laravolt\Platform\Models\User as BaseUser;
 use Laravolt\Suitable\AutoFilter;
 use Laravolt\Suitable\AutoSearch;
 use Laravolt\Suitable\AutoSort;
+use Override;
 
 #[Fillable(['name', 'email', 'username', 'password', 'status', 'timezone'])]
 #[Hidden(['password', 'remember_token'])]
@@ -29,6 +30,7 @@ final class User extends BaseUser
      *
      * @var array<string, string>
      */
+    #[Override]
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
