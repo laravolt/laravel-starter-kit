@@ -37,13 +37,16 @@ jobs:
           coverage: none
 
       # post-update-cmd repo menjalankan `bunx npm-check-updates -u`
-      # (script update:requirements) — butuh bun di PATH.
+      # (script update:requirements) — butuh bun di PATH. Hasil bump JS-nya
+      # dikembalikan di bawah (di luar tujuan workflow ini dan berisiko
+      # merusak build); yang di-PR hanya composer.json/lock.
       - uses: oven-sh/setup-bun@v2
 
       - name: Update Dependencies
         run: |
           composer update --no-interaction --prefer-dist --no-progress --with-all-dependencies
           composer bump
+          git checkout -- package.json bun.lock 2>/dev/null || true
           echo "LARAVEL=$(composer show laravel/framework --no-interaction | awk '/^versions/ {print $NF}')" >> "$GITHUB_ENV"
 
       - name: Open PR
@@ -60,5 +63,4 @@ jobs:
           add-paths: |
             composer.json
             composer.lock
-            package.json
           delete-branch: true
