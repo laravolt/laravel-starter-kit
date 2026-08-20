@@ -30,6 +30,10 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      # post-update-cmd repo menjalankan `bunx npm-check-updates -u`
+      # (script update:requirements) — butuh bun di PATH.
+      - uses: oven-sh/setup-bun@v2
+
       - name: Update Dependencies
         run: |
           composer update --no-interaction --prefer-dist --no-progress --with-all-dependencies
@@ -49,4 +53,5 @@ jobs:
           add-paths: |
             composer.json
             composer.lock
+            package.json
           delete-branch: true
