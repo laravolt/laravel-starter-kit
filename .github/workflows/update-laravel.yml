@@ -22,7 +22,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
+      # token: PAT opsional (secret DEPS_PAT). Dengan GITHUB_TOKEN bawaan,
+      # push branch PR tidak memicu workflow tests (anti-loop GitHub) sehingga
+      # PR deps tampil tanpa checks; set DEPS_PAT (repo scope) untuk
+      # menghilangkan keharusan close/reopen PR tiap minggu.
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.DEPS_PAT || github.token }}
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -43,6 +49,7 @@ jobs:
       - name: Open PR
         uses: peter-evans/create-pull-request@v7
         with:
+          token: ${{ secrets.DEPS_PAT || github.token }}
           branch: deps/laravel-auto
           title: "chore(deps): Laravel ${{ env.LARAVEL }} + dependensi terbaru (otomatis)"
           commit-message: "chore(deps): update ke Laravel ${{ env.LARAVEL }} + dependensi terbaru (otomatis)"
