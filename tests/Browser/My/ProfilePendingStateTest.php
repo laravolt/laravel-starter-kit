@@ -18,7 +18,7 @@ it('locks the profile form while a real Livewire save request is pending', funct
         ->assertSee('Edit Profile')
         ->fill('input[wire\\:model="name"]', 'After')
         ->assertScript('window.Livewire !== undefined')
-        ->assertScript('document.querySelector("[data-update-uri]")?.getAttribute("data-update-uri") !== null');
+        ->assertScript('document.querySelector("[data-update-uri]")?.getAttribute("data-update-uri")?.length > 0');
 
     $page->script(<<<'JS'
         const originalFetch = window.fetch.bind(window);
