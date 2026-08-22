@@ -13,7 +13,7 @@ it('has no smoke on guest pages', function (): void {
     ]);
 
     $pages->assertNoSmoke();
-});
+})->group('critical');
 
 it('has no smoke on authenticated pages', function (): void {
     $this->actingAs(User::factory()->create());
@@ -25,4 +25,4 @@ it('has no smoke on authenticated pages', function (): void {
     ]);
 
     $pages->assertNoSmoke();
-});
+})->group('critical');

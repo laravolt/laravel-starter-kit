@@ -13,6 +13,7 @@
         "php": "^8.5.0",
         "laravel/framework": "^13.26.1",
         "laravolt/laravolt": "^7.0",
+        "livewire/livewire": "^4.4.1",
         "nunomaduro/essentials": "^1.2.0"
     },
     "require-dev": {
@@ -100,7 +101,8 @@
             "@test:types"
         ],
         "test:coverage": "XDEBUG_MODE=\"coverage\" pest --exclude-testsuite Browser --parallel --coverage --exactly=100.0",
-        "test:browser": "pest --testsuite Browser"
+        "test:browser": "pest --testsuite Browser --no-coverage",
+        "test:browser:critical": "pest --testsuite Browser --group=critical --no-coverage"
     },
     "extra": {
         "laravel": {
