@@ -101,8 +101,8 @@
             "@test:types"
         ],
         "test:coverage": "XDEBUG_MODE=\"coverage\" pest --exclude-testsuite Browser --parallel --coverage --exactly=100.0",
-        "test:browser": "pest --testsuite Browser",
-        "test:browser:critical": "pest --testsuite Browser --group=critical"
+        "test:browser": "pest --testsuite Browser --no-coverage",
+        "test:browser:critical": "pest --testsuite Browser --group=critical --no-coverage"
     },
     "extra": {
         "laravel": {

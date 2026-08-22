@@ -153,19 +153,6 @@ jobs:
       - name: Build Assets
         run: bun run build
 
-      - name: Verify Playwright
-        run: npx playwright --version && ls ~/.cache/ms-playwright/
-
-      - name: Debug Browser Tests
-        run: |
-          php -d display_errors=On -d error_reporting=E_ALL -m | grep -E 'sockets|pcov' || true
-          echo "=== Listing tests without group filter ==="
-          vendor/bin/pest --testsuite Browser --list-tests 2>&1 | head -30 || true
-          echo "=== Listing tests with group filter ==="
-          vendor/bin/pest --testsuite Browser --group=critical --list-tests 2>&1 | head -30 || true
-          echo "=== Running with display_errors ==="
-          php -d display_errors=On vendor/bin/pest --testsuite Browser --group=critical --no-coverage 2>&1; echo "Exit: $?"
-
       - name: Run Critical Browser Tests
         run: composer test:browser:critical
 
