@@ -87,8 +87,86 @@ jobs:
       - name: Tests
         run: composer test
 
-      # Suite Browser tidak jalan di job ini (composer test meng-exclude-nya),
-      # jadi tidak ada screenshot/coverage untuk diunggah.
+      # Suite Browser berjalan terpisah agar toolchain Playwright tidak
+      # memperlambat quality gate PHP yang cepat.
+  browser:
+    name: Critical Browser Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.5
+          extensions: sockets
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Cache Composer Dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Cache Bun Dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-
+
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('bun.lock') }}
+          restore-keys: ${{ runner.os }}-playwright-
+
+      - name: Install PHP Dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
+
+      - name: Install Frontend Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Chromium
+        run: bunx playwright install chromium --with-deps
+
+      - name: Configure Application
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          php artisan laravolt:link
+
+      - name: Build Assets
+        run: bun run build
+
+      - name: Run Critical Browser Tests
+        run: composer test:browser:critical
+
+      - name: Upload Browser Failure Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-failure-artifacts
+          path: |
+            tests/.pest/
+            tests/Browser/Screenshots/
+          if-no-files-found: ignore
+          retention-days: 7
+
   sonarqube:
     name: SonarQube Analysis
     runs-on: ubuntu-latest
@@ -104,7 +182,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       # Job ci tidak lagi mengunggah coverage (tidak pernah terisi);
       # Sonar berjalan tanpa metrik coverage sampai test:coverage diaktifkan.
