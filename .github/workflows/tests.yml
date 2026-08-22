@@ -153,8 +153,15 @@ jobs:
       - name: Build Assets
         run: bun run build
 
+      - name: Verify Playwright
+        run: npx playwright --version && ls ~/.cache/ms-playwright/
+
       - name: Run Critical Browser Tests
-        run: composer test:browser:critical
+        run: |
+          php -m | grep -E 'sockets|pcov' || true
+          vendor/bin/pest --testsuite Browser --group=critical -vvv 2>&1 || true
+          echo "Exit code: $?"
+          composer test:browser:critical
 
       - name: Upload Browser Failure Artifacts
         if: failure()
