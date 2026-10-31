@@ -1,27 +1,23 @@
 # Docker
 
-Two compose stacks ship with the Laravolt v7 starter kit:
+Two compose stacks ship with the starter kit. Both use the [laravoltdev/image](https://hub.docker.com/r/laravoltdev/image) images, built once in CI and published to Docker Hub.
 
 | Stack | Purpose | Image | Command |
 | --- | --- | --- | --- |
-| `docker-compose.dev.yml` | Mounted-source dev sandbox | `php:8.4-cli-alpine` + Composer + Node | `docker compose -f docker-compose.dev.yml up --build` |
-| `docker-compose.prod.yml` | Baked production demo | `dunglas/frankenphp:1-php8.4-alpine` | `docker compose -f docker-compose.prod.yml up --build -d` |
+| `docker-compose.dev.yml` | Mounted-source dev sandbox | `laravoltdev/image:php8.5-dev` (pulled, not built) | `docker compose -f docker-compose.dev.yml up -d` |
+| `docker-compose.prod.yml` | Baked production demo | built on `laravoltdev/image:php8.5-prod` | `docker compose -f docker-compose.prod.yml up --build -d` |
 
 ## Development
 
-The dev image mounts your working tree onto `/app` and runs `php artisan serve` on `:8000`. SQLite is created on first boot, Composer installs into the mounted vendor directory, and Vite is reachable on `:5173` (run `npm run dev` inside the container — or enable the optional `vite` sidecar in the compose file).
+The dev stack pulls `laravoltdev/image:php8.5-dev` and mounts your working tree on `/var/www/html`. Nothing is built on your machine, and the image runs natively on Intel and Apple Silicon. FrankenPHP serves the app on `:8080`, and Vite is reachable on `:5173`. The image includes Bun, plus Xdebug, which is off until you set `XDEBUG_MODE=debug`.
 
 ```bash
-docker compose -f docker-compose.dev.yml up --build
-# Open http://localhost:8000
-```
-
-Inside the container:
-
-```bash
-docker compose -f docker-compose.dev.yml exec app php artisan tinker
-docker compose -f docker-compose.dev.yml exec app php artisan migrate:fresh
-docker compose -f docker-compose.dev.yml exec app npm run dev -- --host
+docker compose -f docker-compose.dev.yml up -d
+docker compose -f docker-compose.dev.yml exec app composer install
+docker compose -f docker-compose.dev.yml exec app php artisan migrate
+docker compose -f docker-compose.dev.yml exec app bun install
+docker compose -f docker-compose.dev.yml exec app bun run dev
+# Open http://localhost:8080
 ```
 
 ## Production
@@ -39,7 +35,7 @@ Production forces https URLs (`nunomaduro/essentials`). The compose file sets `A
 
 ## Notes
 
-- PHP 8.4 is required (matches `composer.json`).
-- `CACHE_STORE=array` is the safe default while Laravolt v7 is still moving fast — it sidesteps the now-fixed permission-cache serialization issue cleanly. Switch to `database` or `redis` once you have those services wired in.
-- The starter kit uses [Bun](https://bun.sh/) locally (`bun.lock`), but the prod Dockerfile uses npm to avoid bundling an additional toolchain. Run `npm install` once to generate a `package-lock.json` if you want reproducible CI builds.
+- PHP 8.5 is required (matches `composer.json`).
+- The dev stack uses `CACHE_STORE=array`. Laravolt 8.0.1+ and laravolt/avatar 8.0.1+ also work with `database`, `file` and `redis` caches.
+- Frontend assets are built with [Bun](https://bun.sh/) from `bun.lock`, both in the dev image and in the prod Dockerfile's `oven/bun` stage.
 - The dev stack mounts the host's working tree, so changes are picked up live; the prod stack bakes everything into the image and exposes only `storage/`, `bootstrap/cache/`, and `database/` as named volumes.
