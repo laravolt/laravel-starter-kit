@@ -38,7 +38,7 @@ cd example-app
 composer dev
 ```
 
-`create-project` already copies `.env`, generates the app key, prepares SQLite, runs `laravolt:install`, and migrates the database.
+`create-project` already copies `.env`, generates the app key, prepares SQLite, extracts and links the Laravolt UI assets, and migrates the database. Do not run `laravolt:install` in this project: it republishes the bare Laravolt skeleton over the starter kit's own files.
 
 ### Setup an Existing Clone
 
