@@ -50,7 +50,8 @@
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
-            "@php artisan laravolt:install",
+            "@php artisan laravolt:extract-assets",
+            "@php artisan laravolt:link",
             "@php artisan migrate --force",
             "bun install",
             "bun run build"
@@ -75,7 +76,8 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
-            "@php artisan laravolt:install",
+            "@php artisan laravolt:extract-assets",
+            "@php artisan laravolt:link",
             "@php artisan migrate --graceful --ansi"
         ],
         "update:requirements": [
