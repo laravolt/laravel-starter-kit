@@ -9,7 +9,7 @@
 
 Official Laravel starter kit with strict type-safety and code quality tools for [Laravolt](https://github.com/laravolt/laravolt) in Agentic era.
 
-> **Note**: This starter kit comes with Laravolt Platform (7.x) pre-installed. The setup process automatically configures all necessary migrations and assets.
+> **Note**: This starter kit comes with Laravolt Platform (8.x) pre-installed. The setup process automatically configures all necessary migrations and assets.
 
 ## Why This Starter Kit?
 
@@ -26,13 +26,11 @@ This isn't just another Laravel boilerplate—it's a statement that PHP applicat
 
 ## Getting Started
 
-> **Requires [PHP 8.4+](https://php.net/releases/)** and a database supported by Laravel 13. The default `.env.example` is ready for SQLite.
+> **Requires [PHP 8.5+](https://php.net/releases/)** and a database supported by Laravel 13. The default `.env.example` is ready for SQLite.
 
 ### Create a New App
 
-Create your type-safe Laravel 13 + Laravolt 7 application using [Composer](https://getcomposer.org):
-
-> Maintenance note: until the first Laravolt 7 beta tag is published, this starter pins `laravolt/laravolt` to `dev-master as 7.0.0-beta.1`. Switch it to `^7.0@beta` after the beta release is tagged.
+Create your type-safe Laravel 13 + Laravolt 8 application using [Composer](https://getcomposer.org):
 
 ```bash
 composer create-project laravolt/laravel-starter-kit --prefer-dist example-app
