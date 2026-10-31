@@ -89,6 +89,45 @@ jobs:
 
       # Suite Browser berjalan terpisah agar toolchain Playwright tidak
       # memperlambat quality gate PHP yang cepat.
+  create-project:
+    # `composer create-project` runs the post-create scripts that `ci` never
+    # exercises. Build a project from this checkout and make sure the starter
+    # kit's own files survive and its tests still pass.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: starter
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.5
+          tools: composer:v2
+          coverage: none
+
+      - name: Create a project from this checkout
+        run: |
+          git -C starter checkout -B ci-create-project
+          composer create-project laravolt/laravel-starter-kit:dev-ci-create-project app \
+            --repository='{"type":"path","url":"starter","options":{"symlink":false}}' \
+            --no-interaction --prefer-dist --no-progress
+
+      - name: Starter kit files are not overwritten
+        run: |
+          cd app
+          for file in resources/views/my/profile/edit.blade.php app/Http/Controllers/My/ProfileController.php \
+                      bootstrap/app.php phpunit.xml tests/Pest.php tests/Unit/ArchTest.php; do
+            cmp "$file" "../starter/$file"
+          done
+          test -e public/laravolt
+
+      - name: Tests pass in the created project
+        run: cd app && php artisan test tests/Feature tests/Unit --compact --no-coverage
+
   browser:
     name: Critical Browser Tests
     runs-on: ubuntu-latest
