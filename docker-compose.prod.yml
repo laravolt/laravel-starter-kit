@@ -19,6 +19,8 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
+      # Served over plain http on localhost; set "true" (and an https APP_URL) behind a TLS proxy.
+      APP_FORCE_HTTPS: "false"
       AUTORUN_ENABLED: "true"
       AUTORUN_LARAVOLT_LINK: "false"
     ports:

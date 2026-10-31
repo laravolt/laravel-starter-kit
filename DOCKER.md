@@ -35,6 +35,8 @@ docker compose -f docker-compose.prod.yml up --build -d
 
 The image runs the Caddy/FrankenPHP combo on port `:8080`; the compose file binds it to `127.0.0.1:8090` on the host so you can put your own reverse proxy in front.
 
+Production forces https URLs (`nunomaduro/essentials`). The compose file sets `APP_FORCE_HTTPS: "false"` so login works on plain http at `localhost:8090`. Behind a TLS proxy, set it to `"true"` and use an https `APP_URL`.
+
 ## Notes
 
 - PHP 8.4 is required (matches `composer.json`).
