@@ -26,6 +26,10 @@ FROM laravoltdev/image:php8.5-prod AS runtime
 
 USER root
 
+# public/ belongs to root, so the public/storage link is made here. On start,
+# ServerSideUp's autorun skips storage:link when the link exists; since
+# ServerSideUp v5 a failed storage:link stops the container.
+
 COPY --from=vendor /var/www/html /var/www/html
 COPY --from=assets /app/public/build /var/www/html/public/build
 
@@ -40,6 +44,7 @@ RUN mkdir -p \
     && touch /var/www/html/database/database.sqlite \
     && rm -rf /var/www/html/public/laravolt \
     && php /var/www/html/artisan laravolt:link \
+    && php /var/www/html/artisan storage:link \
     && chown -R www-data:www-data \
         /var/www/html/storage \
         /var/www/html/bootstrap/cache \
